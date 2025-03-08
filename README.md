@@ -4,8 +4,8 @@
 <div align="center">
   
 
-  <p align="center">
-    Take home, modules 2 and 4</p>
+  <h3 align="center">
+    Take home, modules 2 and 4</h3>
 </div>
 
 
