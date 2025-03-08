@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<a name="readme-top"></a>
 
+<br />
+<div align="center">
+  
+
+  <h3 align="center">Gutenberg</h3>
+
+  <p align="center">
+    Take home, modules 2 and 4</p>
+</div>
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Features
+
+## AI Wound Monitoring System
+- Build a simple interface for uploading wound images
+- Implement basic image processing to analyze the wound (you can simulate AI analysis results)
+- Provide feedback classifying the wound as normal or potentially infected
+- Display appropriate care instructions based on the assessment
+
+## Voice Documentation System
+- Build an interface that accepts voice input and converts it to text
+- Implement a system to organize transcribed text into clinical note sections (e.g., chief complaint, history, examination findings)
+- Allow for editing of the generated documentation
+- Create a preview of how the note would appear in an EHR system
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Live Demo
+
+[Live Demo]()
+
+<!-- GETTING STARTED --> 
 ## Getting Started
 
-First, run the development server:
+To get a local copy up and running, you can follow these simple example steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Prerequisites
+
+- Qroq api key
+
+
+### Setup
+
+Create an .env file and add
+```sh
+GROQ_API_KEY=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

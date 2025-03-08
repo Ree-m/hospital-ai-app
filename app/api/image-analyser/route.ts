@@ -7,9 +7,10 @@ export async function POST(req: Request) {
     return Response.json({ error: "No image provided" }, { status: 400 });
   }
 
-  const ResponseSchema = z.object({
+  const responseSchema = z.object({
     infected: z.boolean(),
     care_instructions: z.string(),
+    is_wound: z.boolean(),
   });
 
   const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -28,14 +29,23 @@ export async function POST(req: Request) {
             - **Not infected wounds** should appear clean, with scabbing or mild redness but no pus, or excessive swelling.
             - **Strictly follow these criteria. If uncertain, default to 'not infected' unless clear infection signs are present.**  
 
-            If the wound is infected, return **true**. If not, return **false**. Additionally, provide appropriate care instructions.
+            If the wound is infected, return **true**. If not, return **false**. Additionally, provide appropriate care instructions for the specific wound. Each instruction should be a concise statement with no extra explanations. Ensure 3-5 points of care, and use a format like this:
+
+            Additionally, provide appropriate care instructions formatted as a single string where each instruction appears on a new line, like this:
+
+            "1. First care instruction.\n2. Second care instruction.\n3. Third care instruction.,etc..."
+
+            If the image is not a wound, return **is_wound**: false and do not provide infection status or care instructions.
+
 
             **Respond only in valid JSON format** with the following structure:
 
             {
-              "infected": "boolean",
-              "care_instructions": "string"
-            }`,
+             "is_wound": "boolean"
+            "infected": "boolean", (only if is_wound is true)
+             "care_instructions": "string" (only if is_wound is true)
+            }
+              Ensure each care instruction is on a new line.`,
           },
           {
             type: "image_url",
@@ -59,9 +69,9 @@ export async function POST(req: Request) {
   if (!content) {
     return Response.json({ error: "No content provided" }, { status: 500 });
   }
-  const parsedData = ResponseSchema.safeParse(JSON.parse(content));
 
   try {
+    const parsedData = responseSchema.safeParse(JSON.parse(content));
     return Response.json(parsedData.data);
   } catch (error) {
     return Response.json(

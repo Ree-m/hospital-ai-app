@@ -1,29 +1,4 @@
 import Groq from "groq-sdk";
-
-// export async function GET() {
-//   const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-//   const translation = await groq.audio.translations.create({
-//     file: fs.createReadStream("public/harvard.mp4"),
-//     model: "whisper-large-v3",
-//     prompt: "Specify context or spelling",
-//     response_format: "json",
-//     temperature: 0.0,
-//   });
-//   console.log(translation.text);
-//   return Response.json({ message: translation.text });
-// }
-// export async function GET() {
-//   const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-//   const translation = await groq.audio.translations.create({
-//     file: fs.createReadStream("public/harvard.mp4"),
-//     model: "whisper-large-v3",
-//     prompt: "Specify context or spelling",
-//     response_format: "json",
-//     temperature: 0.0,
-//   });
-//   console.log(translation.text);
-//   return Response.json({ message: translation.text });
-// }
 import z from "zod";
 
 const responseSchema = z.object({
@@ -74,17 +49,16 @@ export async function POST(req: Request) {
     temperature: 0.2,
     response_format: { type: "json_object" },
   });
-
+  const content = response.choices[0].message.content;
+  if (!content) {
+    return Response.json(
+      { error: "Empty response from Groq API" },
+      { status: 500 }
+    );
+  }
   try {
-    console.log(
-      `response.choices[0].message.content: ${response.choices[0].message.content}`
-    );
-    const parsedContent = JSON.parse(
-      response.choices[0].message.content || "{}"
-    );
-
-    const parsedData = responseSchema.parse(parsedContent);
-    return Response.json(parsedData);
+    const parsedData = responseSchema.safeParse(JSON.parse(content));
+    return Response.json(parsedData.data);
   } catch (error) {
     return Response.json(
       { error: `Error parsing response: ${error}` },

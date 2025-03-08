@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useNotes } from "@/app/context/notesContext";
 import Note from "./Note";
 import { Button } from "../ui/button";
-import { NotesInterface } from "@/app/context/notesContext";
 import NotePreviewModal from "./NotePreviewModal";
+import { PatientInfo } from "@/mock/patientInfo";
 
 export interface Patient {
   name: string;
@@ -17,28 +17,17 @@ export default function Notes() {
   const { notes, setNotes } = useNotes();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClear = () => {
-    setNotes((prevNotes: NotesInterface) =>
-      Object.keys(prevNotes).reduce((acc, key) => {
-        acc[key] = "";
-        return acc;
-      }, {} as NotesInterface)
+  const handleClear = () =>
+    setNotes(
+      Object.keys(notes).reduce((acc, key) => ({ ...acc, [key]: "" }), {})
     );
-  };
-
-  const mockPatientInfo: Patient = {
-    name: "John Doe",
-    dob: "1990-01-01",
-    id: "123456",
-    date: new Date().toLocaleDateString(),
-  };
 
   return (
     <div className="border-t">
       <h2 className="mt-6 pb-6 font-bold text-2xl">Clinical Documentation</h2>
       <div className="mt-4 space-y-4">
-        {Object.entries(notes).map(([key, value]) => (
-          <Note key={key} title={key} value={value} />
+        {Object.keys(notes).map((key) => (
+          <Note key={key} title={key} value={notes[key]} />
         ))}
       </div>
       <div className="flex justify-end mt-6 space-x-4">
@@ -59,7 +48,7 @@ export default function Notes() {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           notes={notes}
-          patient={mockPatientInfo}
+          patient={PatientInfo}
         />
       </div>
     </div>

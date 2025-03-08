@@ -1,6 +1,5 @@
-"use client";
 import { Textarea } from "@/components/ui/textarea";
-import { NotesInterface, useNotes } from "@/app/context/notesContext";
+import { useNotes } from "@/app/context/notesContext";
 
 export default function Note({
   title,
@@ -15,9 +14,9 @@ export default function Note({
     <div>
       <h3 className="pb-2">{title}</h3>
       <Textarea
-        value={value}
+        value={value ?? ""}
         onChange={(e) => {
-          setNotes((prevNotes: NotesInterface) => ({
+          setNotes((prevNotes) => ({
             ...prevNotes,
             [title]: e.target.value,
           }));

@@ -15,7 +15,6 @@ const useSpeechRecognition = () => {
       speechRecognition.lang = navigator.language;
 
       speechRecognition.onresult = (event: SpeechRecognitionEvent) => {
-        console.log("on result event:", event);
         let resultText = "";
         for (let i = 0; i < event.results.length; i++) {
           const result = event.results[i];
@@ -27,6 +26,9 @@ const useSpeechRecognition = () => {
       };
 
       setRecognition(speechRecognition);
+      return () => {
+        speechRecognition.abort();
+      };
     }
   }, []);
 

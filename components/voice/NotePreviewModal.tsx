@@ -23,6 +23,8 @@ export default function NotePreviewModal({
   notes,
   patient,
 }: PreviewModalProps) {
+  const notesArray = Object.entries(notes);
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="min-w-1/2">
@@ -34,7 +36,7 @@ export default function NotePreviewModal({
         </DialogHeader>
 
         <div className="space-y-4 text-sm border p-4 rounded-md">
-          {Object.entries(notes).map(([key, value]) => (
+          {notesArray.map(([key, value]) => (
             <div key={key} className="pb-4">
               <h4 className="font-semibold text-lg border-b pb-2 mb-2">
                 {key}

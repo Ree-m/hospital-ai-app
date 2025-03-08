@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDropzone } from "react-dropzone";
 import { z } from "zod";
-import { X } from "lucide-react";
+import { toast } from "sonner";
+import { Loader2, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -72,12 +73,14 @@ export const ImageUploader = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: base64 }),
       });
-
+      if (!response.ok) {
+        throw new Error(`Failed to process voice data: ${response.status}`);
+      }
       const data = await response.json();
-      console.log(data);
       setImageAnalysis(data);
     } catch (error) {
       console.log(error);
+      toast.error("Failed to analyze image");
     }
   };
 
@@ -93,8 +96,7 @@ export const ImageUploader = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("values", values);
+  const onSubmit = async () => {
     if (base64Image) {
       await analyzeImage(base64Image);
     }
@@ -105,22 +107,22 @@ export const ImageUploader = () => {
     setBase64Image(null);
     form.resetField("image");
   };
-  console.log("preview", preview);
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 border-r"
+        className="space-x-4 md:space-y-4 md:border-r"
       >
         <FormField
           control={form.control}
           name="image"
           render={() => (
-            <FormItem className="mx-auto md:w-1/2">
+            <FormItem>
               <FormControl>
                 <div
                   {...getRootProps()}
-                  className="relative mx-auto md:min-h-[400px] md:min-w-[400px] flex flex-col items-center justify-center gap-y-2 rounded-md p-8 border-3 border-dotted bg-[#f9fafc]"
+                  className="relative mx-auto min-h-[400px] min-w-[90%] flex flex-col items-center justify-center gap-y-2 rounded-md p-8 border-3 border-dotted bg-[#f9fafc]"
                 >
                   {!preview && (
                     <FormLabel className="flex flex-col items-center justify-center gap-y-2">
@@ -139,11 +141,11 @@ export const ImageUploader = () => {
                     </FormLabel>
                   )}
                   {preview ? (
-                    <div className="">
+                    <div>
                       <Image
                         src={preview as string}
                         alt="Uploaded image"
-                        className="rounded-lg"
+                        className="rounded-lg max-h-96"
                         width={400}
                         height={400}
                         unoptimized
@@ -175,9 +177,12 @@ export const ImageUploader = () => {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className="mx-auto block h-auto rounded-lg px-8 py-3 text-lg disabled:cursor-auto cursor-pointer"
+          className="mt-2 mx-auto flex gap-2 h-auto rounded-lg px-8 py-3 disabled:cursor-auto cursor-pointer"
         >
-          Analyse
+          {form.formState.isSubmitting && (
+            <Loader2 className="animate-spin w-6 h-6" />
+          )}
+          <span>Analyse</span>
         </Button>
       </form>
     </Form>
