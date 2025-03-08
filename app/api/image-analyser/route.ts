@@ -1,10 +1,16 @@
 import Groq from "groq-sdk";
+import { z } from "zod";
 
 export async function POST(req: Request) {
   const { image } = await req.json();
   if (!image) {
     return Response.json({ error: "No image provided" }, { status: 400 });
   }
+
+  const ResponseSchema = z.object({
+    infected: z.boolean(),
+    care_instructions: z.string(),
+  });
 
   const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -49,10 +55,14 @@ export async function POST(req: Request) {
     response_format: { type: "json_object" },
   });
 
-  console.log(chatCompletion.choices[0].message.content);
+  const content = chatCompletion.choices[0].message.content;
+  if (!content) {
+    return Response.json({ error: "No content provided" }, { status: 500 });
+  }
+  const parsedData = ResponseSchema.safeParse(JSON.parse(content));
 
   try {
-    return Response.json(JSON.parse(chatCompletion.choices[0].message.content));
+    return Response.json(parsedData.data);
   } catch (error) {
     return Response.json(
       { error: `Error parsing response: ${error}` },
