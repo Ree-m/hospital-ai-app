@@ -56,6 +56,7 @@ export const ImageUploader = () => {
         form.setValue("image", file);
         form.clearErrors("image");
       } catch (error) {
+        console.log(error);
         setPreview(null);
         setBase64Image(null);
         form.resetField("image");
