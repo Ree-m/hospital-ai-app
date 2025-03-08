@@ -15,15 +15,19 @@ export async function POST(req: Request) {
         content: [
           {
             type: "text",
-            text: `This is the image of a wound. Classify it as potentially infected or not. 
-            Based on the image, is it infected or not? If yes, return "infected": true. If no, return "infected": false.
-            Provide a confidence score between 0% and 100% for the classification. If you are sure it is infected, you can provide a high confidence score. If you are unsure, provide a lower confidence score.
-            Also, provide appropriate care instructions. 
+            text: `This is an image of a wound. Analyze it carefully and classify it as **potentially infected** or **not infected** based on visible signs. 
+            Consider the following criteria:
+
+            - **Potentially infected wounds** may show swelling, pus, foul odor, excessive warmth, or spreading streaks.
+            - **Not infected wounds** should appear clean, with scabbing or mild redness but no pus, or excessive swelling.
+            - **Strictly follow these criteria. If uncertain, default to 'not infected' unless clear infection signs are present.**  
+
+            If the wound is infected, return **true**. If not, return **false**. Additionally, provide appropriate care instructions.
+
             **Respond only in valid JSON format** with the following structure:
 
             {
               "infected": "boolean",
-              "confidence": "number",
               "care_instructions": "string"
             }`,
           },
@@ -37,9 +41,9 @@ export async function POST(req: Request) {
       },
     ],
     model: "llama-3.2-11b-vision-preview",
-    temperature: 1,
+    temperature: 0,
     max_completion_tokens: 1024,
-    top_p: 1,
+    top_p: 0.1,
     stream: false,
     stop: null,
     response_format: { type: "json_object" },

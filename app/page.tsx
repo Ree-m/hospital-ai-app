@@ -1,4 +1,3 @@
-import VoiceRecorder from "@/components/voice/VoiceRecorder";
 export default function Home() {
   return (
     <div>

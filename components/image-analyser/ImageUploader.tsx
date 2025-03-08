@@ -75,23 +75,25 @@ export const ImageUploader = () => {
       const data = await response.json();
       console.log(data);
       setImageAnalysis(data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const { getRootProps, getInputProps, isDragActive, fileRejections } =
-    useDropzone({
-      onDrop,
-      maxFiles: 1,
-      maxSize: 1000000,
-      accept: {
-        "image/png": [],
-        "image/jpg": [],
-        "image/jpeg": [],
-        "image/webp": [],
-      },
-    });
+  const { getRootProps, getInputProps, fileRejections } = useDropzone({
+    onDrop,
+    maxFiles: 1,
+    maxSize: 1000000,
+    accept: {
+      "image/png": [],
+      "image/jpg": [],
+      "image/jpeg": [],
+      "image/webp": [],
+    },
+  });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log("values", values);
     if (base64Image) {
       await analyzeImage(base64Image);
     }
@@ -119,6 +121,22 @@ export const ImageUploader = () => {
                   {...getRootProps()}
                   className="relative mx-auto md:min-h-[400px] md:min-w-[400px] flex flex-col items-center justify-center gap-y-2 rounded-md p-8 border-3 border-dotted bg-[#f9fafc]"
                 >
+                  {!preview && (
+                    <FormLabel className="flex flex-col items-center justify-center gap-y-2">
+                      <p className="text-gray-600">
+                        Drag and drop wound image here
+                      </p>
+                      <span className="text-gray-600">or</span>
+                      <Button asChild>
+                        <label
+                          htmlFor="file-input"
+                          className="cursor-pointer text-lg px-6 py-6"
+                        >
+                          Browse Files
+                        </label>
+                      </Button>
+                    </FormLabel>
+                  )}
                   {preview ? (
                     <div className="">
                       <Image
@@ -138,22 +156,7 @@ export const ImageUploader = () => {
                       </button>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center justify-center gap-y-2">
-                      <p className="text-gray-600">
-                        Drag and drop wound image here
-                      </p>
-                      <span className="text-gray-600">or</span>
-                      <Button asChild>
-                        <label
-                          htmlFor="file-input"
-                          className="cursor-pointer text-lg px-6 py-6"
-                        >
-                          Browse Files
-                        </label>
-                      </Button>
-
-                      <Input {...getInputProps()} type="file" />
-                    </div>
+                    <Input {...getInputProps()} type="file" />
                   )}
                 </div>
               </FormControl>
