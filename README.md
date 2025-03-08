@@ -4,8 +4,6 @@
 <div align="center">
   
 
-  <h3 align="center">Gutenberg</h3>
-
   <p align="center">
     Take home, modules 2 and 4</p>
 </div>
