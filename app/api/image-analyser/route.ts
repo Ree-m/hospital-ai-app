@@ -8,8 +8,8 @@ export async function POST(req: Request) {
   }
 
   const responseSchema = z.object({
-    infected: z.boolean(),
-    care_instructions: z.string(),
+    infected: z.boolean().optional(),
+    care_instructions: z.string().optional(),
     is_wound: z.boolean(),
   });
 
