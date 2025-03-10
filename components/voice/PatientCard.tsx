@@ -1,12 +1,9 @@
-import { Patient } from "./Notes";
-
-export default function PatientCard({ patient }: { patient: Patient }) {
-  const { name, id, dob, date } = patient;
+export default function PatientCard() {
   const patientInfo = [
-    { label: "Patient", value: name },
-    { label: "Id", value: id },
-    { label: "Dob", value: dob },
-    { label: "Date", value: date },
+    { label: "Patient", value: "Jon Doe" },
+    { label: "Id", value: "1234567" },
+    { label: "Dob", value: "01/01/1990" },
+    { label: "Date", value: new Date().toLocaleDateString() },
   ];
 
   return (

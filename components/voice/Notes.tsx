@@ -4,14 +4,6 @@ import { useNotes } from "@/app/context/notesContext";
 import Note from "./Note";
 import { Button } from "../ui/button";
 import NotePreviewModal from "./NotePreviewModal";
-import { PatientInfo } from "@/mock/patientInfo";
-
-export interface Patient {
-  name: string;
-  dob: string;
-  id: string;
-  date: string;
-}
 
 export default function Notes() {
   const { notes, setNotes } = useNotes();
@@ -44,12 +36,7 @@ export default function Notes() {
         >
           Preview
         </Button>
-        <NotePreviewModal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          notes={notes}
-          patient={PatientInfo}
-        />
+        <NotePreviewModal isOpen={isOpen} setIsOpen={setIsOpen} notes={notes} />
       </div>
     </div>
   );

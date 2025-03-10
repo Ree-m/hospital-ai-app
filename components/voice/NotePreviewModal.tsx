@@ -7,28 +7,25 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { Patient } from "./Notes";
 import PatientCard from "./PatientCard";
 
 interface PreviewModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   notes: Record<string, string>;
-  patient: Patient;
 }
 
 export default function NotePreviewModal({
   isOpen,
   setIsOpen,
   notes,
-  patient,
 }: PreviewModalProps) {
   const notesArray = Object.entries(notes);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="min-w-1/2">
-        <PatientCard patient={patient} />
+        <PatientCard />
         <DialogHeader>
           <DialogTitle className="flex text-xl font-semibold justify-center">
             Clinical Note
