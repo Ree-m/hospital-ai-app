@@ -9,8 +9,8 @@ export async function POST(req: Request) {
 
   const responseSchema = z.object({
     infected: z.boolean().optional(),
-    care_instructions: z.string().optional(),
-    is_wound: z.boolean(),
+    careInstructions: z.string().optional(),
+    isWound: z.boolean(),
   });
 
   const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -35,15 +35,15 @@ export async function POST(req: Request) {
 
             "1. First care instruction.\n2. Second care instruction.\n3. Third care instruction.,etc..."
 
-            If the image is not a wound, return **is_wound**: false and do not provide infection status or care instructions.
+            If the image is not a wound, return **isWound**: false and do not provide infection status or care instructions.
 
 
             **Respond only in valid JSON format** with the following structure:
 
             {
-             "is_wound": "boolean"
-            "infected": "boolean", (only if is_wound is true)
-             "care_instructions": "string" (only if is_wound is true)
+             "isWound": "boolean"
+            "infected": "boolean", (only if isWound is true)
+             "careInstructions": "string" (only if isWound is true)
             }
               Ensure each care instruction is on a new line.`,
           },

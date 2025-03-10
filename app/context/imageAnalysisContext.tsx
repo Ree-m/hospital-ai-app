@@ -3,8 +3,8 @@ import React, { createContext, useContext, useState } from "react";
 
 export interface AnalysisData {
   infected: boolean;
-  care_instructions: string;
-  is_wound: boolean;
+  careInstructions: string;
+  isWound: boolean;
 }
 
 interface ImageAnalysisContextType {

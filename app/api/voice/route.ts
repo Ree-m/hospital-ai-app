@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       {
         role: "system",
         content:
-          "You are a helpful assistant that  reads patient data text generates structured JSON dividing sais text into predefined sections for a clicnical note",
+          "You are a helpful assistant that  reads patient data text generates structured JSON dividing said text into predefined sections for a clicnical note",
       },
       { role: "user", content: prompt },
     ],

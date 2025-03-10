@@ -42,9 +42,9 @@ export default function ImageAnalysis() {
     );
   }
 
-  const { is_wound, infected, care_instructions } = imageAnalysis;
+  const { isWound, infected, careInstructions } = imageAnalysis;
 
-  if (!is_wound) {
+  if (!isWound) {
     return (
       <div className="flex flex-col justify-between">
         <AnalysisSection title="Assessment Result">
@@ -97,7 +97,7 @@ export default function ImageAnalysis() {
       <AnalysisSection title="Care Instructions">
         <div className="border rounded-md p-4 min-h-28 mb-4">
           <p className="text-gray-600">
-            {care_instructions?.split("\n").map((line, index) => (
+            {careInstructions?.split("\n").map((line, index) => (
               <span key={index}>
                 {line}
                 <br />
